@@ -1,12 +1,24 @@
 <resources>
-    <string name="app_name">ListMaker</string>
-    <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">Cities</string>
-    <string name="second_fragment_label">LandMarks</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="app_name">Travel App</string>
+    <string name="description">Description</string>
+    <string name="landmark_name_req">Landmark Name <font color='#FF0000'>*</font></string>
+    <string name="landmark_description_req">Landmark Description <font color='#FF0000'>*</font></string>
+    <string name="city_name_req">City Name <font color='#FF0000'>*</font></string>
+    <string name="city_description_req">City Description <font color='#FF0000'>*</font></string>
+    <string name="save_action">Save</string>
+    <string name="landmark">Landmark</string>
+    <string name="add_fragment_title">Add City</string>
+    <string name="edit_fragment_title">Edit City</string>
+    <string name="city">City</string>
+    <string name="delete">Delete</string>
+    <string name="delete_question">Are you sure you want to delete?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="currency_symbol">$</string>
+    <string name="edit_city">Edit Item</string>
+    <string name="add_new_city">Add new City</string>
+    <string name="add_new_landmark">Add new Landmark</string>
+    <string name="item_detail_fragment_title">Landmarks</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
 </resources>
