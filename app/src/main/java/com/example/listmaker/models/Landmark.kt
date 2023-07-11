@@ -8,7 +8,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Landmark(
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
+    val landmarkId: Int = 0,
     val landmarkName: String,
     val landmarkDescription: String,
     val cityId: Int

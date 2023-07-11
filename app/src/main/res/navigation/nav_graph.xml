@@ -3,74 +3,98 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/CityListFragment">
+    app:startDestination="@id/cityListFragment">
 
     <fragment
-        android:id="@+id/CityListFragment"
+        android:id="@+id/cityListFragment"
         android:name="com.example.listmaker.ui.CityListFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_city_list">
         <action
-            android:id="@+id/action_cityListFragment_to_LandmarkListFragment"
-            app:destination="@id/LandmarkListFragment" />
+            android:id="@+id/action_CityListFragment_to_LandmarkListFragment"
+            app:destination="@id/landmarkListFragment" />
         <action
-            android:id="@+id/action_cityListFragment_to_CityAddFragment"
-            app:destination="@id/CityAddFragment"/>
-        <argument
-            android:name="City_id"
-            app:argType="integer" />
+            android:id="@+id/action_CityListFragment_to_CityAddFragment"
+            app:destination="@id/cityAddFragment"/>
+        <action
+            android:id="@+id/action_CityListFragment_to_CityDetailFragment"
+            app:destination="@id/cityDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/LandmarkListFragment"
-        android:name="com.example.listmaker.ui.LandmarkListFragment"
-        android:label="@string/item_detail_fragment_title"
-        tools:layout="@layout/fragment_list_landmark">
+        android:id="@+id/cityDetailFragment"
+        android:name="com.example.listmaker.ui.CityDetailFragment"
+        android:label="@string/city_detail_fragment_title"
+        tools:layout="@layout/fragment_city_detail">
         <argument
-            android:name="Landmark_id"
+            android:name="city_id"
             app:argType="integer" />
         <action
-            android:id="@+id/action_LandmarkListFragment_to_LandmarkAddFragment"
-            app:destination="@id/LandmarkAddFragment" />
-        <action
-            android:id="@+id/action_LandmarkListFragment_to_CityListFragment"
-            app:destination="@id/CityListFragment" />
-
-
+            android:id="@+id/action_CityDetailFragment_to_AddCityFragment"
+            app:destination="@id/cityAddFragment" />
     </fragment>
+
     <fragment
-        android:id="@+id/CityAddFragment"
-        android:name="com.example.listmaker.ui.CityAddFragment"
+        android:id="@+id/cityAddFragment"
+        android:name="com.example.listmaker.ui.AddCityFragment"
         android:label="{title}"
         tools:layout="@layout/fragment_add_city">
         <argument
             android:name="title"
             app:argType="string" />
         <argument
-            android:name="City_id"
+            android:name="city_id"
             android:defaultValue="-1"
             app:argType="integer" />
         <action
             android:id="@+id/action_CityAddFragment_to_CityListFragment"
-            app:destination="@id/CityListFragment"
-            app:popUpTo="@id/CityListFragment"
+            app:destination="@id/cityListFragment"
+            app:popUpTo="@id/cityListFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        android:id="@+id/LandmarkAddFragment"
-        android:name="com.example.listmaker.ui.LandmarkAddFragment"
+        android:id="@+id/landmarkListFragment"
+        android:name="com.example.listmaker.ui.LandmarkListFragment"
+        android:label="@string/landmark_detail_fragment_title"
+        tools:layout="@layout/fragment_list_landmark">
+        <action
+            android:id="@+id/action_LandmarkListFragment_to_LandmarkAddFragment"
+            app:destination="@id/landmarkAddFragment" />
+        <action
+            android:id="@+id/action_LandmarkListFragment_to_LandmarkDetailFragment"
+            app:destination="@id/landmarkDetailFragment" />
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/landmarkDetailFragment"
+        android:name="com.example.listmaker.ui.LandmarkDetailFragment"
+        android:label="@string/landmark_detail_fragment_title"
+        tools:layout="@layout/fragment_landmark_detail">
+        <argument
+            android:name="landmark_id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_LandmarkDetailFragment_to_addLandmarkFragment"
+            app:destination="@id/landmarkAddFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/landmarkAddFragment"
+        android:name="com.example.listmaker.ui.AddLandmarkFragment"
         android:label="{title}"
         tools:layout="@layout/fragment_add_landmark">
         <argument
             android:name="title"
             app:argType="string" />
         <argument
-            android:name="Landmark_id"
+            android:name="landmark_id"
             android:defaultValue="-1"
             app:argType="integer" />
         <action
             android:id="@+id/action_LandmarkAddFragment_to_LandmarkListFragment"
-            app:destination="@id/LandmarkListFragment"
-            app:popUpTo="@id/LandmarkListFragment"
+            app:destination="@id/landmarkListFragment"
+            app:popUpTo="@id/landmarkListFragment"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>

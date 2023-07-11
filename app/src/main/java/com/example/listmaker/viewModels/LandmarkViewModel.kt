@@ -2,21 +2,20 @@ package com.example.listmaker.viewModels
 
 import androidx.lifecycle.*
 import com.example.listmaker.daoObjects.LandmarkDao
-import com.example.listmaker.models.City
 import com.example.listmaker.models.Landmark
 import kotlinx.coroutines.launch
 
 class LandmarkViewModel(private val itemDao: LandmarkDao) : ViewModel() {
 
     // Cache all items form the database using LiveData.
-    val allItems: LiveData<List<Landmark>> = itemDao.getItems().asLiveData()
+    val allLandmarks: LiveData<List<Landmark>> = itemDao.getItems().asLiveData()
 
     fun updateLandmark(
-
         landmarkName: String,
         landmarkDescription: String,
+        cityId: Int
     ) {
-        val updatedLandmark = getUpdatedLandmarkEntry(landmarkName, landmarkDescription)
+        val updatedLandmark = getUpdatedLandmarkEntry(landmarkName, landmarkDescription, cityId)
         updateLandmark(updatedLandmark)
     }
 
@@ -33,8 +32,8 @@ class LandmarkViewModel(private val itemDao: LandmarkDao) : ViewModel() {
     /**
      * Inserts the new Item into database.
      */
-    fun addNewLandmark(landmarkName: String, landmarkDescription: String) {
-        val newLandmark = getNewLandmarkEntry(landmarkName,landmarkDescription)
+    fun addNewLandmark(landmarkName: String, landmarkDescription: String,cityId: Int) {
+        val newLandmark = getNewLandmarkEntry(landmarkName,landmarkDescription,cityId)
         insertLandmark(newLandmark)
     }
 
@@ -59,14 +58,14 @@ class LandmarkViewModel(private val itemDao: LandmarkDao) : ViewModel() {
     /**
      * Retrieve an item from the repository.
      */
-    fun retrieveLandmark(landmarkName: String): LiveData<Landmark> {
+    fun retrieveLandmark(landmarkName: Int): LiveData<Landmark> {
         return itemDao.getItem(landmarkName).asLiveData()
     }
 
     /**
      * Returns true if the EditTexts are not empty
      */
-    fun isEntryValid(landmarkName: String,landmarkDescription: String): Boolean {
+    fun isEntryValid(landmarkName: String, landmarkDescription: String): Boolean {
         if (landmarkName.isBlank() || landmarkDescription.isBlank()) {
             return false
         }
@@ -74,27 +73,31 @@ class LandmarkViewModel(private val itemDao: LandmarkDao) : ViewModel() {
     }
 
     /**
-     * Returns an instance of the [City] entity class with the item info entered by the user.
+     * Returns an instance of the [Landmark] entity class with the item info entered by the user.
      * This will be used to add a new entry to the City database.
      */
-    private fun getNewLandmarkEntry(landmarkName: String,landmarkDescription: String): Landmark {
+    private fun getNewLandmarkEntry(landmarkName: String,landmarkDescription: String,cityId: Int): Landmark {
         return Landmark(
             landmarkName = landmarkName,
-            landmarkDescription = landmarkDescription
+            landmarkDescription = landmarkDescription,
+            cityId = cityId
+
         )
     }
 
     /**
      * Called to update an existing entry in the Inventory database.
-     * Returns an instance of the [City] entity class with the item info updated by the user.
+     * Returns an instance of the [Landmark] entity class with the item info updated by the user.
      */
     private fun getUpdatedLandmarkEntry(
         landmarkName: String,
-        landmarkDescription: String
+        landmarkDescription: String,
+        cityId: Int
     ): Landmark {
         return Landmark(
             landmarkName = landmarkName,
-            landmarkDescription = landmarkDescription
+            landmarkDescription = landmarkDescription,
+            cityId=cityId
         )
     }
 }

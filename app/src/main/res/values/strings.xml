@@ -7,8 +7,10 @@
     <string name="city_description_req">City Description <font color='#FF0000'>*</font></string>
     <string name="save_action">Save</string>
     <string name="landmark">Landmark</string>
-    <string name="add_fragment_title">Add City</string>
-    <string name="edit_fragment_title">Edit City</string>
+    <string name="add_city_title">Add City</string>
+    <string name="add_landmark_title">Add Landmark</string>
+    <string name="edit_city_title">Edit City</string>
+    <string name="edit_landmark_title">Edit Landmark</string>
     <string name="city">City</string>
     <string name="delete">Delete</string>
     <string name="delete_question">Are you sure you want to delete?</string>
@@ -18,7 +20,8 @@
     <string name="edit_city">Edit Item</string>
     <string name="add_new_city">Add new City</string>
     <string name="add_new_landmark">Add new Landmark</string>
-    <string name="item_detail_fragment_title">Landmarks</string>
+    <string name="city_detail_fragment_title">City Details</string>
+    <string name="landmark_detail_fragment_title">Landmarks Details</string>
 
 
 </resources>

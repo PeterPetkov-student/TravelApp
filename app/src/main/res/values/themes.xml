@@ -14,9 +14,4 @@
         <!-- Customize your theme here. -->
         <item name="textInputStyle">@style/Widget.Inventory.TextInputLayout.OutlinedBox</item>
     </style>
-
-    <style name="Theme.ListMaker.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
 </resources>

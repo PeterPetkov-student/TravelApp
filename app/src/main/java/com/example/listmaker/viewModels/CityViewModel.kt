@@ -1,20 +1,20 @@
 package com.example.listmaker.viewModels
 
 import androidx.lifecycle.*
+import androidx.room.RoomDatabase
 import com.example.listmaker.daoObjects.CityDao
 import com.example.listmaker.models.City
 import kotlinx.coroutines.launch
 
-class CityViewModel(private val itemDao: CityDao) : ViewModel() {
+class CityViewModel(val itemDao: CityDao) : ViewModel() {
 
     // Cache all items form the database using LiveData.
-        val allItems: LiveData<List<City>> = itemDao.getItems().asLiveData()
+    val allCities: LiveData<List<City>> = itemDao.getItems().asLiveData()
 
     fun updateCity(
-        cityName: String,
-        cityDescription: String,
+        cityId: Int, cityName: String, cityDescription: String
     ) {
-        val updatedCity = getUpdatedCityEntry(cityName, cityDescription)
+        val updatedCity = getUpdatedCityEntry(cityId, cityName, cityDescription)
         updateCity(updatedCity)
     }
 
@@ -32,7 +32,7 @@ class CityViewModel(private val itemDao: CityDao) : ViewModel() {
      * Inserts the new Item into database.
      */
     fun addNewCity(cityName: String, cityDescription: String) {
-        val newCity = getNewCityEntry(cityName,cityDescription)
+        val newCity = getNewCityEntry(cityName, cityDescription)
         insertCity(newCity)
     }
 
@@ -57,14 +57,14 @@ class CityViewModel(private val itemDao: CityDao) : ViewModel() {
     /**
      * Retrieve an item from the repository.
      */
-    fun retrieveCity(cityName: String): LiveData<City> {
-        return itemDao.getItem(cityName).asLiveData()
+    fun retrieveCity(cityId: Int): LiveData<City> {
+        return itemDao.getItem(cityId).asLiveData()
     }
 
     /**
      * Returns true if the EditTexts are not empty
      */
-    fun isEntryValid(cityName: String,cityDescription: String): Boolean {
+    fun isEntryValid(cityName: String, cityDescription: String): Boolean {
         if (cityName.isBlank() || cityDescription.isBlank()) {
             return false
         }
@@ -87,10 +87,12 @@ class CityViewModel(private val itemDao: CityDao) : ViewModel() {
      * Returns an instance of the [City] entity class with the item info updated by the user.
      */
     private fun getUpdatedCityEntry(
+        cityId: Int,
         cityName: String,
         cityDescription: String
     ): City {
         return City(
+            cityId = cityId,
             cityName = cityName,
             cityDescription = cityDescription
         )
@@ -101,6 +103,7 @@ class CityViewModel(private val itemDao: CityDao) : ViewModel() {
  * Factory class to instantiate the [ViewModel] instance.
  */
 class CityViewModelFactory(private val itemDao: CityDao) : ViewModelProvider.Factory {
+
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CityViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

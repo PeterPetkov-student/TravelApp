@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.listmaker.databinding.CityListCityBinding
 import com.example.listmaker.models.City
 
-class CityListAdapter(private val onItemClicked: (City) -> Unit) :
+class CityListAdapter(private val onItemClicked: (City) -> Unit,
+                      private val onItemLongClick: (City) -> Unit) :
     ListAdapter<City, CityListAdapter.CityViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityViewHolder {
@@ -16,7 +17,8 @@ class CityListAdapter(private val onItemClicked: (City) -> Unit) :
             CityListCityBinding.inflate(
                 LayoutInflater.from(
                     parent.context
-                )
+                ),parent,
+                false
             )
         )
     }
@@ -25,6 +27,10 @@ class CityListAdapter(private val onItemClicked: (City) -> Unit) :
         val current = getItem(position)
         holder.itemView.setOnClickListener {
             onItemClicked(current)
+        }
+        holder.itemView.setOnLongClickListener() {
+            onItemLongClick(current)
+            true
         }
         holder.bind(current)
     }
