@@ -11,13 +11,13 @@
         android:label="@string/app_name"
         tools:layout="@layout/fragment_city_list">
         <action
-            android:id="@+id/action_CityListFragment_to_LandmarkListFragment"
-            app:destination="@id/landmarkListFragment" />
+            android:id="@+id/action_cityListFragment_to_landmarkListFragment"
+            app:destination="@id/landmarkListFragment"/>
         <action
-            android:id="@+id/action_CityListFragment_to_CityAddFragment"
+            android:id="@+id/action_cityListFragment_to_cityAddFragment"
             app:destination="@id/cityAddFragment"/>
         <action
-            android:id="@+id/action_CityListFragment_to_CityDetailFragment"
+            android:id="@+id/action_cityListFragment_to_cityDetailFragment"
             app:destination="@id/cityDetailFragment" />
     </fragment>
     <fragment
@@ -29,8 +29,12 @@
             android:name="city_id"
             app:argType="integer" />
         <action
-            android:id="@+id/action_CityDetailFragment_to_AddCityFragment"
+            android:id="@+id/action_cityDetailFragment_to_addCityFragment"
             app:destination="@id/cityAddFragment" />
+        <action
+            android:id="@+id/action_cityDetailFragment_to_cityListFragment"
+            app:destination="@id/cityListFragment" />
+
     </fragment>
 
     <fragment
@@ -43,10 +47,9 @@
             app:argType="string" />
         <argument
             android:name="city_id"
-            android:defaultValue="-1"
             app:argType="integer" />
         <action
-            android:id="@+id/action_CityAddFragment_to_CityListFragment"
+            android:id="@+id/action_cityAddFragment_to_cityListFragment"
             app:destination="@id/cityListFragment"
             app:popUpTo="@id/cityListFragment"
             app:popUpToInclusive="true" />
@@ -57,13 +60,18 @@
         android:label="@string/landmark_detail_fragment_title"
         tools:layout="@layout/fragment_list_landmark">
         <action
-            android:id="@+id/action_LandmarkListFragment_to_LandmarkAddFragment"
+            android:id="@+id/action_landmarkListFragment_to_landmarkAddFragment"
             app:destination="@id/landmarkAddFragment" />
         <action
-            android:id="@+id/action_LandmarkListFragment_to_LandmarkDetailFragment"
+            android:id="@+id/action_landmarkListFragment_to_landmarkDetailFragment"
             app:destination="@id/landmarkDetailFragment" />
-
-
+        <argument
+            android:name="city_id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_landmarkListFragment_to_cityListFragment"
+            app:destination="@id/cityListFragment">
+        </action>
     </fragment>
 
     <fragment
@@ -74,9 +82,15 @@
         <argument
             android:name="landmark_id"
             app:argType="integer" />
+        <argument
+            android:name="city_id"
+            app:argType="integer" />
         <action
             android:id="@+id/action_LandmarkDetailFragment_to_addLandmarkFragment"
             app:destination="@id/landmarkAddFragment" />
+        <action
+            android:id="@+id/action_landmarkDetailFragment_to_landmarkListFragment"
+            app:destination="@id/landmarkListFragment" />
     </fragment>
 
     <fragment
@@ -87,14 +101,13 @@
         <argument
             android:name="title"
             app:argType="string" />
-        <argument
-            android:name="landmark_id"
-            android:defaultValue="-1"
-            app:argType="integer" />
         <action
             android:id="@+id/action_LandmarkAddFragment_to_LandmarkListFragment"
             app:destination="@id/landmarkListFragment"
             app:popUpTo="@id/landmarkListFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="landmark_id"
+            app:argType="integer" />
     </fragment>
 </navigation>

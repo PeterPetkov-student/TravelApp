@@ -22,6 +22,10 @@
     <string name="add_new_landmark">Add new Landmark</string>
     <string name="city_detail_fragment_title">City Details</string>
     <string name="landmark_detail_fragment_title">Landmarks Details</string>
+    <string name="back_to_cityList">Back</string>
+    <string name="cannot_delete_city_with_landmarks_title">Cant delete city with landmarks!</string>
+    <string name="cannot_delete_city_with_landmarks_message">Cant delete city with landmarks!</string>
+
 
 
 </resources>

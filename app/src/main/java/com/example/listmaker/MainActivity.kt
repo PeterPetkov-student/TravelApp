@@ -1,14 +1,17 @@
 package com.example.listmaker
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private lateinit var navController: NavController
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,7 +22,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         navController = navHostFragment.navController
         // Set up the action bar for use with the NavController
         //bundle
-        NavigationUI.setupActionBarWithNavController(this, navController)
+        var navView = findViewById<NavigationView>(R.id.test)
+        NavigationUI.setupWithNavController(navView,navController)
+       //NavigationUI.setupActionBarWithNavController(this, navController)
+
     }
 
     /**

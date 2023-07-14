@@ -7,22 +7,22 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.listmaker.viewModels.CityViewModel
 import com.example.listmaker.viewModels.CityViewModelFactory
 import com.example.listmaker.R
 import com.example.listmaker.appDatabase.RoomData
 import com.example.listmaker.databinding.FragmentCityListBinding
-import com.example.listmaker.interfaces.CityListAdapter
+import com.example.listmaker.adapters.CityListAdapter
+import com.example.listmaker.adapters.LandmarkListAdapter
+import com.example.listmaker.viewModels.LandmarkViewModel
+import com.example.listmaker.viewModels.LandmarkViewModelFactory
 
 
 class CityListFragment : Fragment() {
-    private  var viewModel: CityViewModel
-
-    init {
-        val db = RoomData.getDatabase(requireActivity().applicationContext)
-        viewModel = ViewModelProvider(requireActivity(), CityViewModelFactory(db.CityDao()))[CityViewModel::class.java]
-    }
+    private lateinit var viewModel: CityViewModel
+    private lateinit var landmarkViewModel: LandmarkViewModel
 
     private var _binding: FragmentCityListBinding? = null
     private val binding get() = _binding!!
@@ -38,14 +38,17 @@ class CityListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val db = RoomData.getDatabase(requireActivity().applicationContext)
+        landmarkViewModel = ViewModelProvider(requireActivity(), LandmarkViewModelFactory(db.LandmarkDao()))[LandmarkViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity(), CityViewModelFactory(db.CityDao(), landmarkViewModel))[CityViewModel::class.java]
 
         val adapter = CityListAdapter(
             onItemClicked = { city ->
-                val action = CityListFragmentDirections.actionCityListFragmentToCityDetailFragment(city.cityId)
+                val action = CityListFragmentDirections.actionCityListFragmentToLandmarkListFragment(city.cityId)
                 findNavController().navigate(action)
             },
-            onItemLongClick = { _ ->
-                val action = CityListFragmentDirections.actionCityListFragmentToLandmarkListFragment()
+            onItemLongClick = { city ->
+                val action = CityListFragmentDirections.actionCityListFragmentToCityDetailFragment(city.cityId)
                 findNavController().navigate(action)
             }
         )
@@ -61,7 +64,8 @@ class CityListFragment : Fragment() {
 
         binding.floatingActionButton.setOnClickListener {
             val action = CityListFragmentDirections.actionCityListFragmentToCityAddFragment(
-                getString(R.string.add_city_title)
+                getString(R.string.add_city_title),
+                0
             )
             this.findNavController().navigate(action)
         }

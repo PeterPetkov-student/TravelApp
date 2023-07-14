@@ -1,4 +1,4 @@
-package com.example.listmaker.interfaces
+package com.example.listmaker.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -28,7 +28,7 @@ class CityListAdapter(private val onItemClicked: (City) -> Unit,
         holder.itemView.setOnClickListener {
             onItemClicked(current)
         }
-        holder.itemView.setOnLongClickListener() {
+        holder.itemView.setOnLongClickListener {
             onItemLongClick(current)
             true
         }

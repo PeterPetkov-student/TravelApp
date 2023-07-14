@@ -18,14 +18,11 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class LandmarkDetailFragment : Fragment() {
     private val navigationArgs: LandmarkDetailFragmentArgs by navArgs()
+
     lateinit var item: Landmark
 
-    private var viewModel: LandmarkViewModel
+    private lateinit var viewModel: LandmarkViewModel
 
-    init {
-        val db = RoomData.getDatabase(requireActivity().applicationContext)
-        viewModel = ViewModelProvider(requireActivity(), LandmarkViewModelFactory(db.LandmarkDao()))[LandmarkViewModel::class.java]
-    }
 
     private var _binding: FragmentLandmarkDetailBinding? = null
     private val binding get() = _binding!!
@@ -57,6 +54,7 @@ class LandmarkDetailFragment : Fragment() {
     private fun editLandmark() {
         val action = LandmarkDetailFragmentDirections.actionLandmarkDetailFragmentToAddLandmarkFragment(
             getString(R.string.edit_landmark_title),
+            item.landmarkId
         )
         this.findNavController().navigate(action)
     }
@@ -86,13 +84,22 @@ class LandmarkDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val id = navigationArgs.landmarkId
+
+        val db = RoomData.getDatabase(requireActivity().applicationContext)
+        viewModel = ViewModelProvider(requireActivity(), LandmarkViewModelFactory(db.LandmarkDao()))[LandmarkViewModel::class.java]
+
+
+
         // Retrieve the item details using the itemId.
         // Attach an observer on the data (instead of polling for changes) and only update the
         // the UI when the data actually changes.
-        viewModel.retrieveLandmark(id).observe(this.viewLifecycleOwner) { selectedItem ->
+        viewModel.retrieveLandmark(navigationArgs.landmarkId).observe(this.viewLifecycleOwner) { selectedItem ->
             item = selectedItem
             bind(item)
+        }
+
+        binding.floatingActionButton3.setOnClickListener {
+            this.findNavController().navigateUp()
         }
     }
 

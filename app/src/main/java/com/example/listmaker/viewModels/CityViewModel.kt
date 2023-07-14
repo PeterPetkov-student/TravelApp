@@ -6,10 +6,14 @@ import com.example.listmaker.daoObjects.CityDao
 import com.example.listmaker.models.City
 import kotlinx.coroutines.launch
 
-class CityViewModel(val itemDao: CityDao) : ViewModel() {
+class CityViewModel(private val itemDao: CityDao,
+                    private val landmarkViewModel: LandmarkViewModel
+                    ) : ViewModel() {
 
     // Cache all items form the database using LiveData.
     val allCities: LiveData<List<City>> = itemDao.getItems().asLiveData()
+
+
 
     fun updateCity(
         cityId: Int, cityName: String, cityDescription: String
@@ -61,6 +65,7 @@ class CityViewModel(val itemDao: CityDao) : ViewModel() {
         return itemDao.getItem(cityId).asLiveData()
     }
 
+
     /**
      * Returns true if the EditTexts are not empty
      */
@@ -102,12 +107,14 @@ class CityViewModel(val itemDao: CityDao) : ViewModel() {
 /**
  * Factory class to instantiate the [ViewModel] instance.
  */
-class CityViewModelFactory(private val itemDao: CityDao) : ViewModelProvider.Factory {
+class CityViewModelFactory(private val itemDao: CityDao,
+                           private val landmarkViewModel: LandmarkViewModel
+                            ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CityViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return CityViewModel(itemDao) as T
+            return CityViewModel(itemDao,landmarkViewModel) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

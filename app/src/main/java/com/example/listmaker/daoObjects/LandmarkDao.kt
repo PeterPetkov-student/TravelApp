@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface LandmarkDao {
 
-    @Query("SELECT * from Landmark ORDER BY landmarkName ASC")
+    @Query("SELECT * FROM Landmark ORDER BY landmarkName ASC")
     fun getItems(): Flow<List<Landmark>>
 
-    @Query("SELECT * from Landmark WHERE landmarkId = :landmarkId")
+    @Query("SELECT * FROM Landmark WHERE landmarkId = :landmarkId")
     fun getItem(landmarkId: Int): Flow<Landmark>
 
     @Query("SELECT * FROM Landmark WHERE cityId = :cityId")

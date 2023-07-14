@@ -16,6 +16,8 @@ import com.example.listmaker.databinding.FragmentAddCityBinding
 import com.example.listmaker.models.City
 import com.example.listmaker.viewModels.CityViewModel
 import com.example.listmaker.viewModels.CityViewModelFactory
+import com.example.listmaker.viewModels.LandmarkViewModel
+import com.example.listmaker.viewModels.LandmarkViewModelFactory
 
 class AddCityFragment : Fragment() {
 
@@ -26,11 +28,9 @@ class AddCityFragment : Fragment() {
 
     lateinit var item: City
 
-    private  var viewModel: CityViewModel
-    init {
-        val db = RoomData.getDatabase(requireActivity().applicationContext)
-        viewModel = ViewModelProvider(requireActivity(), CityViewModelFactory(db.CityDao()))[CityViewModel::class.java]
-    }
+    private lateinit var viewModel: CityViewModel
+    private lateinit var landmarkViewModel: LandmarkViewModel
+
 
     // Binding object instance corresponding to the fragment_add_item.xml layout
     // This property is non-null between the onCreateView() and onDestroyView() lifecycle callbacks,
@@ -107,6 +107,10 @@ class AddCityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val db = RoomData.getDatabase(requireActivity().applicationContext)
+        landmarkViewModel = ViewModelProvider(requireActivity(), LandmarkViewModelFactory(db.LandmarkDao()))[LandmarkViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity(), CityViewModelFactory(db.CityDao(), landmarkViewModel))[CityViewModel::class.java]
+
         val id = navigationArgs.cityId
         if (id > 0) {
             viewModel.retrieveCity(id).observe(this.viewLifecycleOwner) { selectedCity ->
@@ -117,6 +121,9 @@ class AddCityFragment : Fragment() {
             binding.saveAction.setOnClickListener {
                 addNewCity()
             }
+        }
+        binding.floatingActionButton5.setOnClickListener {
+            this.findNavController().navigateUp()
         }
     }
 

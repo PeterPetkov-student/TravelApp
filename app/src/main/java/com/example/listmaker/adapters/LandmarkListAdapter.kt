@@ -1,4 +1,4 @@
-package com.example.listmaker.interfaces
+package com.example.listmaker.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -7,8 +7,17 @@ import kotlinx.coroutines.launch
 
 class LandmarkViewModel(private val itemDao: LandmarkDao) : ViewModel() {
 
+    var cityId:Int? =null
+    var landmarkId:Int? =null
+
+
     // Cache all items form the database using LiveData.
-    val allLandmarks: LiveData<List<Landmark>> = itemDao.getItems().asLiveData()
+
+
+
+    fun getLandmarksByCityId(cityId: Int): LiveData<List<Landmark>> {
+        return itemDao.getLandmarksByCityId(cityId).asLiveData()
+    }
 
     fun updateLandmark(
         landmarkName: String,
@@ -58,9 +67,10 @@ class LandmarkViewModel(private val itemDao: LandmarkDao) : ViewModel() {
     /**
      * Retrieve an item from the repository.
      */
-    fun retrieveLandmark(landmarkName: Int): LiveData<Landmark> {
-        return itemDao.getItem(landmarkName).asLiveData()
+    fun retrieveLandmark(landmarkId: Int): LiveData<Landmark> {
+        return itemDao.getItem(landmarkId).asLiveData()
     }
+
 
     /**
      * Returns true if the EditTexts are not empty

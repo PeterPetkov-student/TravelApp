@@ -21,13 +21,9 @@ class AddLandmarkFragment : Fragment() {
 
     // Use the 'by activityViewModels()' Kotlin property delegate from the fragment-ktx artifact
     // to share the ViewModel across fragments.
-    private  var viewModel: LandmarkViewModel
+    private lateinit var viewModel: LandmarkViewModel
 
-    init {
-        val db = RoomData.getDatabase(requireActivity().applicationContext)
-        viewModel = ViewModelProvider(requireActivity(), LandmarkViewModelFactory(db.LandmarkDao()))[LandmarkViewModel::class.java]
-    }
-    private val navigationArgs: CityDetailFragmentArgs by navArgs()
+    private val navigationArgs : LandmarkDetailFragmentArgs by navArgs()
 
     lateinit var item: Landmark
 
@@ -70,14 +66,15 @@ class AddLandmarkFragment : Fragment() {
     /**
      * Inserts the new Item into database and navigates up to list fragment.
      */
-    private fun addNewLandmark(cityId: Int) {
+    private fun addNewLandmark() {
         if (isEntryValid()) {
+            val cityId = viewModel.cityId?:0
             viewModel.addNewLandmark(
                 binding.landmarkName.text.toString(),
                 binding.landmarkDescription.text.toString(),
                 cityId
             )
-            val action = AddLandmarkFragmentDirections.actionLandmarkAddFragmentToLandmarkListFragment()
+            val action = AddLandmarkFragmentDirections.actionLandmarkAddFragmentToLandmarkListFragment(cityId)
             findNavController().navigate(action)
         }
     }
@@ -87,13 +84,13 @@ class AddLandmarkFragment : Fragment() {
      */
     private fun updateLandmark() {
         if (isEntryValid()) {
+            val landmarkId = viewModel.landmarkId?:0
             viewModel.updateLandmark(
                 this.binding.landmarkName.text.toString(),
                 this.binding.landmarkDescription.text.toString(),
-                this.navigationArgs.cityId
-
+                landmarkId
             )
-            val action = AddLandmarkFragmentDirections.actionLandmarkAddFragmentToLandmarkListFragment()
+            val action = AddLandmarkFragmentDirections.actionLandmarkAddFragmentToLandmarkListFragment(landmarkId)
             findNavController().navigate(action)
         }
     }
@@ -107,8 +104,11 @@ class AddLandmarkFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val db = RoomData.getDatabase(requireActivity().applicationContext)
+        viewModel = ViewModelProvider(requireActivity(), LandmarkViewModelFactory(db.LandmarkDao()))[LandmarkViewModel::class.java]
 
-        val id = navigationArgs.cityId
+        val id = viewModel.landmarkId?:0
+
         if (id > 0) {
             viewModel.retrieveLandmark(id).observe(this.viewLifecycleOwner) { selectedLandmark ->
                 item = selectedLandmark
@@ -116,8 +116,11 @@ class AddLandmarkFragment : Fragment() {
             }
         } else {
             binding.saveAction.setOnClickListener {
-                addNewLandmark(id)
+                addNewLandmark()
             }
+        }
+        binding.floatingActionButton6.setOnClickListener {
+            this.findNavController().navigateUp()
         }
     }
 
