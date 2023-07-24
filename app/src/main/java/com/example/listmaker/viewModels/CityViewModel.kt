@@ -1,7 +1,6 @@
 package com.example.listmaker.viewModels
 
 import androidx.lifecycle.*
-import androidx.room.RoomDatabase
 import com.example.listmaker.daoObjects.CityDao
 import com.example.listmaker.models.City
 import kotlinx.coroutines.launch

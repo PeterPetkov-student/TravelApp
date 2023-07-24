@@ -25,6 +25,7 @@
     <string name="back_to_cityList">Back</string>
     <string name="cannot_delete_city_with_landmarks_title">Cant delete city with landmarks!</string>
     <string name="cannot_delete_city_with_landmarks_message">Cant delete city with landmarks!</string>
+    <string name="cancel">Cancel</string>
 
 
 

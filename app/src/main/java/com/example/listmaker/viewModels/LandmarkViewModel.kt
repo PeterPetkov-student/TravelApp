@@ -20,11 +20,12 @@ class LandmarkViewModel(private val itemDao: LandmarkDao) : ViewModel() {
     }
 
     fun updateLandmark(
+        landmarkId: Int,
         landmarkName: String,
         landmarkDescription: String,
         cityId: Int
     ) {
-        val updatedLandmark = getUpdatedLandmarkEntry(landmarkName, landmarkDescription, cityId)
+        val updatedLandmark = getUpdatedLandmarkEntry(landmarkId,landmarkName, landmarkDescription, cityId)
         updateLandmark(updatedLandmark)
     }
 
@@ -100,11 +101,13 @@ class LandmarkViewModel(private val itemDao: LandmarkDao) : ViewModel() {
      * Returns an instance of the [Landmark] entity class with the item info updated by the user.
      */
     private fun getUpdatedLandmarkEntry(
+        landmarkId: Int,
         landmarkName: String,
         landmarkDescription: String,
         cityId: Int
     ): Landmark {
         return Landmark(
+            landmarkId = landmarkId,
             landmarkName = landmarkName,
             landmarkDescription = landmarkDescription,
             cityId=cityId

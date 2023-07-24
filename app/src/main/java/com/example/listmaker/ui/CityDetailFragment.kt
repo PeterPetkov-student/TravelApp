@@ -1,9 +1,12 @@
 package com.example.listmaker.ui
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -38,6 +41,27 @@ class CityDetailFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        bindViews()
+    }
+
+    private fun bindViews() {
+        val db = RoomData.getDatabase(requireActivity().applicationContext)
+        landmarkViewModel = ViewModelProvider(requireActivity(), LandmarkViewModelFactory(db.LandmarkDao()))[LandmarkViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity(), CityViewModelFactory(db.CityDao(), landmarkViewModel))[CityViewModel::class.java]
+
+        val id = navigationArgs.cityId
+        viewModel.retrieveCity(id).observe(viewLifecycleOwner) { selectedItem ->
+            item = selectedItem
+            bind(item)
+        }
+
+        binding.floatingActionButton4.setOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
     /**
      * Binds views with the passed in item data.
      */
@@ -50,15 +74,37 @@ class CityDetailFragment : Fragment() {
         }
     }
 
+
     /**
      * Navigate to the Edit item screen.
      */
     private fun editCity() {
-        val action = CityDetailFragmentDirections.actionCityDetailFragmentToAddCityFragment(
-            getString(R.string.edit_city_title),
-            item.cityId
-        )
-        this.findNavController().navigate(action)
+        // Inflate the layout for AlertDialog
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.fragment_add_city, null)
+        val cityNameInput = dialogView.findViewById<EditText>(R.id.city_name)
+        val cityDescriptionInput = dialogView.findViewById<EditText>(R.id.city_description)
+
+        // Populate the EditTexts with the current city data
+        cityNameInput.setText(item.cityName)
+        cityDescriptionInput.setText(item.cityDescription)
+
+        // Build the AlertDialog
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.edit_city_title))
+            .setView(dialogView)
+            .setPositiveButton(getString(R.string.save_action)) { _, _ ->
+                val cityName = cityNameInput.text.toString()
+                val cityDescription = cityDescriptionInput.text.toString()
+                if (viewModel.isEntryValid(cityName, cityDescription)) {
+                    viewModel.updateCity(item.cityId, cityName, cityDescription)
+                } else {
+                    // Handle case where entries are invalid. This could be a Toast, SnackBar, etc.
+                    Toast.makeText(requireContext(), "Please enter valid data", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.cancel() }
+            .create()
+            .show()
     }
 
     /**
@@ -96,27 +142,6 @@ class CityDetailFragment : Fragment() {
         viewModel.deleteCity(item)
         findNavController().navigateUp()
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val db = RoomData.getDatabase(requireActivity().applicationContext)
-        landmarkViewModel = ViewModelProvider(requireActivity(), LandmarkViewModelFactory(db.LandmarkDao()))[LandmarkViewModel::class.java]
-        viewModel = ViewModelProvider(requireActivity(), CityViewModelFactory(db.CityDao(), landmarkViewModel))[CityViewModel::class.java]
-
-        val id = navigationArgs.cityId
-        // Retrieve the item details using the itemId.
-        // Attach an observer on the data (instead of polling for changes) and only update the
-        // the UI when the data actually changes.
-        viewModel.retrieveCity(id).observe(this.viewLifecycleOwner) { selectedItem ->
-            item = selectedItem
-            bind(item)
-        }
-        binding.floatingActionButton4.setOnClickListener {
-            this.findNavController().navigateUp()
-        }
-    }
-
     /**
      * Called when fragment is destroyed.
      */
