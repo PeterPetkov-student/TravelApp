@@ -43,7 +43,6 @@ class CityListAdapter(private val onItemClicked: (City) -> Unit,
             binding.cityDescription.text = item.cityDescription
         }
     }
-    //notify
 
     companion object {
         private val DiffCallback = object : DiffUtil.ItemCallback<City>() {

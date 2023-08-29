@@ -5,9 +5,9 @@ import com.example.listmaker.daoObjects.CityDao
 import com.example.listmaker.models.City
 import kotlinx.coroutines.launch
 
-class CityViewModel(private val itemDao: CityDao,
-                    private val landmarkViewModel: LandmarkViewModel
-                    ) : ViewModel() {
+class CityViewModel(
+    private val itemDao: CityDao
+) : ViewModel() {
 
     // Cache all items form the database using LiveData.
     val allCities: LiveData<List<City>> = itemDao.getItems().asLiveData()
@@ -113,7 +113,7 @@ class CityViewModelFactory(private val itemDao: CityDao,
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CityViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return CityViewModel(itemDao,landmarkViewModel) as T
+            return CityViewModel(itemDao) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

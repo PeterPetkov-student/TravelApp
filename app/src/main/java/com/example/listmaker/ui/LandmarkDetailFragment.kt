@@ -45,7 +45,6 @@ class LandmarkDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
         observeLandmark()
-        setupFab()
         bindViews()
     }
 
@@ -58,12 +57,6 @@ class LandmarkDetailFragment : Fragment() {
         viewModel.retrieveLandmark(navigationArgs.landmarkId).observe(viewLifecycleOwner) { selectedItem ->
             item = selectedItem
             bind(item)
-        }
-    }
-
-    private fun setupFab() {
-        binding.floatingActionButton3.setOnClickListener {
-            findNavController().navigateUp()
         }
     }
 
@@ -86,12 +79,15 @@ class LandmarkDetailFragment : Fragment() {
     private fun editLandmark() {
         viewModel.landmarkId = navigationArgs.landmarkId
 
-        viewModel.retrieveLandmark(viewModel.landmarkId!!).observeOnce(viewLifecycleOwner, Observer { currentLandmark ->
+        viewModel.retrieveLandmark(viewModel.landmarkId!!).observeOnce(viewLifecycleOwner
+        ) { currentLandmark ->
             if (currentLandmark != null) {
                 // Inflate the layout for AlertDialog
-                val dialogView = LayoutInflater.from(context).inflate(R.layout.fragment_add_landmark, null)
+                val dialogView =
+                    LayoutInflater.from(context).inflate(R.layout.fragment_add_landmark, null)
                 val landmarkNameInput = dialogView.findViewById<EditText>(R.id.landmark_name)
-                val landmarkDescriptionInput = dialogView.findViewById<EditText>(R.id.landmark_description)
+                val landmarkDescriptionInput =
+                    dialogView.findViewById<EditText>(R.id.landmark_description)
 
                 // Populate the EditTexts with the current landmark data
                 landmarkNameInput.setText(currentLandmark.landmarkName)
@@ -105,19 +101,29 @@ class LandmarkDetailFragment : Fragment() {
                         val landmarkName = landmarkNameInput.text.toString()
                         val landmarkDescription = landmarkDescriptionInput.text.toString()
                         if (viewModel.isEntryValid(landmarkName, landmarkDescription)) {
-                            viewModel.updateLandmark(viewModel.landmarkId!!,landmarkName, landmarkDescription, viewModel.cityId!!)
+                            viewModel.updateLandmark(
+                                viewModel.landmarkId!!,
+                                landmarkName,
+                                landmarkDescription,
+                                viewModel.cityId!!
+                            )
                         } else {
                             // Handle case where entries are invalid. This could be a Toast, SnackBar, etc.
-                            Toast.makeText(requireContext(), "Please enter valid data", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Please enter valid data",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                     .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.cancel() }
                     .create()
                     .show()
             } else {
-                Toast.makeText(requireContext(), "Unable to retrieve Landmark", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Unable to retrieve Landmark", Toast.LENGTH_SHORT)
+                    .show()
             }
-        })
+        }
     }
     /**
      * Displays an alert dialog to get the user's confirmation before deleting the item.

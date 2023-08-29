@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
+
     <style name="Widget.Inventory.ListItemTextView" parent="Widget.MaterialComponents.TextView">
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_height">48dp</item>
@@ -29,8 +30,7 @@
     </style>
 
 
-    <style name="Widget.Inventory.TextInputLayout.OutlinedBox"
-        parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="Widget.Inventory.TextInputLayout.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeErrorColor">@color/red_700</item>
         <item name="errorIconTint">@color/red_700</item>
         <item name="errorTextColor">@color/red_700</item>
@@ -39,4 +39,13 @@
         </item>
     </style>
 
+    <style name="Widget.ListMaker.AppWidget.Container" parent="android:Widget">
+        <item name="android:id">@android:id/background</item>
+        <item name="android:background">?android:attr/colorBackground</item>
+    </style>
+
+    <style name="Widget.ListMaker.AppWidget.InnerView" parent="android:Widget">
+        <item name="android:background">?android:attr/colorBackground</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
 </resources>

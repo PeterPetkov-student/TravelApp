@@ -1,7 +1,6 @@
 package com.example.listmaker.daoObjects
 
 import androidx.room.*
-import com.example.listmaker.models.City
 import com.example.listmaker.models.Landmark
 import kotlinx.coroutines.flow.Flow
 

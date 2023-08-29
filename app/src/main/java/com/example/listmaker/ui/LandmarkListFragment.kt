@@ -45,7 +45,6 @@ import com.example.listmaker.viewModels.LandmarkViewModelFactory
         private fun bindViews() {
             setupViewModel()
             setupRecyclerView()
-            setupNavigationButton()
             setupFloatingActionButton()
         }
 
@@ -71,12 +70,6 @@ import com.example.listmaker.viewModels.LandmarkViewModelFactory
             }
         }
 
-        private fun setupNavigationButton() {
-            binding.floatingActionButton2.setOnClickListener {
-                val action = LandmarkListFragmentDirections.actionLandmarkListFragmentToCityListFragment()
-                findNavController().navigate(action)
-            }
-        }
 
         private fun setupFloatingActionButton() {
             binding.floatingActionButton.setOnClickListener {

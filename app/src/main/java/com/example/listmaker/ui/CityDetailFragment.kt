@@ -57,9 +57,7 @@ class CityDetailFragment : Fragment() {
             bind(item)
         }
 
-        binding.floatingActionButton4.setOnClickListener {
-            findNavController().navigateUp()
-        }
+
     }
 
     /**
